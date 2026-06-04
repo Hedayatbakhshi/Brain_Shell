@@ -2,12 +2,16 @@
 
 case "$1" in
     shutdown)
-        (setsid bash -c 'hyprshutdown --post-cmd "systemctl poweroff"' &>/dev/null &);;
+        loginctl poweroff
+        ;;
     reboot)
-        (setsid bash -c 'hyprshutdown --post-cmd "systemctl reboot"' &>/dev/null &);;
+        loginctl reboot
+        ;;
     logout)
-        (setsid bash -c 'hyprshutdown --post-cmd "loginctl terminate-user $USER"' &>/dev/null &);;
+        loginctl terminate-session ""
+        ;;
     *)
+        echo "Usage: $0 {shutdown|reboot|logout}"
         exit 1
         ;;
 esac
