@@ -774,7 +774,7 @@ StatCard {
                         }
                     }
                     HoverHandler { id: bH; cursorShape: Qt.PointingHandCursor }
-                    MouseArea    { anchors.fill: parent; onClicked: btn.toggled() }
+                    MouseArea    { anchors.fill: parent; cursorShape: Qt.PointingHandCursor; onClicked: btn.toggled() }
                 }
 
                 Grid {

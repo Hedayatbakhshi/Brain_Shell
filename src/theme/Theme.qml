@@ -77,5 +77,5 @@ QtObject {
     property int wsRadius:      16
 
     // -- Animations --
-    property int animDuration: 320
+    property int animDuration: 400
 }

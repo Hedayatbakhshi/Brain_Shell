@@ -13,7 +13,7 @@ QtObject {
     id: root
 
     // ── Parsed colors (with fallbacks matching original palette) ──────────────
-    property color background: "#1a282a"
+    property color background: "#0D0D0D"
     property color active:     "#a6d0f7"
     property color text:       "#cdd6f4"
     property color subtext:    "#94e2d5"

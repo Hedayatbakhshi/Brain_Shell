@@ -851,17 +851,16 @@ Item {
 				}
 			}
 
-			// ── Click to toggle dashboard ─────────────────────────────────────────────
-			// TapHandler has lower implicit grab priority than child MouseAreas.
-			// Clicks on Stop / Discard buttons are handled by their own MouseAreas
-			// first and never reach here. Tapping empty notch space opens dashboard.
-			TapHandler {
-				onTapped: {
-					// Do nothing during screen rec setup — ESC / cancel button handles it
+			// ── Hover to open dashboard ──────────────────────────────────────────────
+			HoverHandler {
+				id: dashHover
+				margin: 0
+				onHoveredChanged: {
 					if (ShellState.screenRecord && !ScreenRecService.recording) return
-					var next = !Popups.dashboardOpen
-					Popups.closeAll()
-					Popups.dashboardOpen = next
+					if (dashHover.hovered && !Popups.dashboardOpen) {
+						Popups.closeAll()
+						Popups.dashboardOpen = true
+					}
 				}
 			}
 		}

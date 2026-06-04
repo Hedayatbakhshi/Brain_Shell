@@ -73,8 +73,12 @@ PanelWindow {
                 root.windowVisible = true
                 root._applyPageWidth(root.page)
                 pageArea.forceActiveFocus()
+                root._closeEnabled = false
+                closeEnableTimer.restart()
             } else {
                 closeTimer.restart()
+                root._closeEnabled = false
+                closeEnableTimer.stop()
             }
         }
     }
@@ -167,6 +171,7 @@ PanelWindow {
     }
     
 
+    property bool _closeEnabled: false
     Timer {
         id: closeTimer
         interval: root.animDuration + 20
@@ -176,11 +181,10 @@ PanelWindow {
         }
     }
 
-    Item {
-        anchors.fill: parent
-        TapHandler {
-            onTapped: Popups.dashboardOpen = false // or wallpaperOpen = false
-        }
+    Timer {
+        id: closeEnableTimer
+        interval: 500
+        onTriggered: root._closeEnabled = true
     }
 
     // ── Sizer ─────────────────────────────────────────────────────────────────
@@ -208,6 +212,14 @@ PanelWindow {
             radius:       Theme.cornerRadius
             flareWidth:   root.fw
             flareHeight:  root.fh
+        }
+
+        HoverHandler {
+            id: sizerHover
+            onHoveredChanged: {
+                if (!hovered && Popups.dashboardOpen && root._closeEnabled)
+                    Popups.dashboardOpen = false
+            }
         }
 
         // ── Content ───────────────────────────────────────────────────────────
@@ -260,34 +272,53 @@ PanelWindow {
 
                     Item {
                         anchors.fill: parent
-                        visible:      root.page === "home"
+                        opacity: root.page === "home" ? 1 : 0
+                        scale:  root.page === "home" ? 1 : 0.95
+                        visible: opacity > 0
+                        Behavior on opacity { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
+                        Behavior on scale  { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
                         DashHome { anchors.fill: parent }
                     }
 
                     Item {
                         anchors.fill: parent
-                        visible:      root.page === "stats"
+                        opacity: root.page === "stats" ? 1 : 0
+                        scale:  root.page === "stats" ? 1 : 0.95
+                        visible: opacity > 0
+                        Behavior on opacity { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
+                        Behavior on scale  { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
                         DashStats { anchors.fill: parent }
                     }
 
                     Item {
                         anchors.fill: parent
-                        visible:      root.page === "kanban"
+                        opacity: root.page === "kanban" ? 1 : 0
+                        scale:  root.page === "kanban" ? 1 : 0.95
+                        visible: opacity > 0
+                        Behavior on opacity { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
+                        Behavior on scale  { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
                         KanbanBoard { anchors.fill: parent }
                     }
 
                     Item {
                         anchors.fill: parent
-                        visible:      root.page === "launcher"
+                        opacity: root.page === "launcher" ? 1 : 0
+                        scale:  root.page === "launcher" ? 1 : 0.95
+                        visible: opacity > 0
+                        Behavior on opacity { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
+                        Behavior on scale  { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
                         AppLauncher { anchors.fill: parent }
                     }
 
                     Item {
                         anchors.fill: parent
-                        visible:      root.page === "config"
+                        opacity: root.page === "config" ? 1 : 0
+                        scale:  root.page === "config" ? 1 : 0.95
+                        visible: opacity > 0
+                        Behavior on opacity { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
+                        Behavior on scale  { NumberAnimation { duration: root.animDuration; easing.type: Easing.OutCubic } }
                         Item {
                             anchors.fill: parent
-                            visible:      root.page === "config"
                             ShellConfig { anchors.fill: parent }
                         }
                     }

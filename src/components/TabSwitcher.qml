@@ -124,10 +124,12 @@ Item {
 					}
 				}
 
-				HoverHandler { id: hHov; cursorShape: Qt.PointingHandCursor }
-				MouseArea {
-					anchors.fill: parent
-					onClicked:    root.pageChanged(modelData.key)
+				HoverHandler {
+					id: hHov
+					cursorShape: Qt.PointingHandCursor
+					onHoveredChanged: {
+						if (hovered) root.pageChanged(modelData.key)
+					}
 				}
 			}
 		}
